@@ -99,4 +99,4 @@ if [ $? -ne 0 ]; then
 fi
 #######################################
 sudo ufw allow $LISTEN_PORT
-node updatePortPwd.js "$USER_ID" "$PASSWORD" "$LISTEN_PORT"
+node /home/christian/app/bradensbay-start-vm-api/updatePortPwd.js "$USER_ID" "$PASSWORD" "$LISTEN_PORT"
