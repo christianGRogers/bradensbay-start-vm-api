@@ -33,6 +33,8 @@ lxc exec $USER_ID -- bash -c "mkdir -p /var/www/html/$USERNAME"
 lxc exec $USER_ID -- bash -c "mv /var/www/html/index.html /var/www/html/$USERNAME/"
 
 PASSWORD=$(tr -dc A-Za-z0-9 </dev/urandom | head -c 12)
+echo "Generated password: $PASSWORD"
+
 
 # Create the new user on the LXD VM
 lxc exec "$USER_ID" -- bash -c "useradd -m -G sudo $USERNAME && echo '$USERNAME:$PASSWORD' | chpasswd"
