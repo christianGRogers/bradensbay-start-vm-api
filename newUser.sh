@@ -24,7 +24,7 @@ sleep 40
 # Install Apache2 on the LXD VM export DEBIAN_FRONTEND=noninteractive; <============fuck this
 echo "Installing Apache2 on the LXD VM: $USER_ID"
 lxc exec $USER_ID -- bash -c "export http_proxy=http://10.0.0.11:3128; apt-get update"
-lxc exec $USER_ID -- bash -c "export http_proxy=http://10.0.0.11:3128; apt-get install apache2"
+lxc exec $USER_ID -- bash -c "export http_proxy=http://10.0.0.11:3128; apt-get install -y apache2"
 
 
 # Create the folder named by the argument in /var/www/html and move index.html into that folder
