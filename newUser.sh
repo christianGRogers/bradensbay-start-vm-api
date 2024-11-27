@@ -12,19 +12,14 @@ USERNAME="${EMAIL%@*}"
 # Create an LXD VM with the specified name
 echo "Creating LXD VM: $USER_ID"
 
-lxc launch ubuntu:focal $USER_ID --vm --config image.architecture=amd64 --config image.description="Ubuntu focal amd64 (20240724_0023)" --config image.os=Ubuntu --config image.release=focal --config image.serial="20240724_0023" --config image.type=disk-kvm.img --config image.variant=desktop
+lxc launch launch base-image-20240724_0023 $USER_ID
 if [ $? -ne 0 ]; then
     exit 1
 fi
 
 
-# Wait for the VM to start (if it dose not start in 20 sec ur cooooked)
-sleep 40
 
-# Install Apache2 on the LXD VM export DEBIAN_FRONTEND=noninteractive; <============fuck this
-echo "Installing Apache2 on the LXD VM: $USER_ID"
-lxc exec $USER_ID -- bash -c "export http_proxy=http://10.0.0.11:3128; apt-get update"
-lxc exec $USER_ID -- bash -c "export http_proxy=http://10.0.0.11:3128; apt-get install -y apache2"
+
 
 
 # Create the folder named by the argument in /var/www/html and move index.html into that folder
