@@ -13,6 +13,8 @@ USERNAME="${EMAIL%@*}"
 echo "Creating LXD VM: $USER_ID"
 
 lxc launch base-image-20240724_0023 $USER_ID
+sleep 40
+
 if [ $? -ne 0 ]; then
     exit 1
 fi
