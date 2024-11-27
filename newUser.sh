@@ -18,10 +18,6 @@ if [ $? -ne 0 ]; then
 fi
 
 
-
-
-
-
 # Create the folder named by the argument in /var/www/html and move index.html into that folder
 echo "Setting up Apache2 directory structure"
 lxc exec $USER_ID -- bash -c "mkdir -p /var/www/html/$USERNAME"
