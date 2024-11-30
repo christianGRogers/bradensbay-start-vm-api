@@ -39,7 +39,7 @@ echo "Password: $PASSWORD"
 
 
 # Get the LXD VM IP address
-VM_IP=$(lxc list $USER_ID -c 4 | grep enp5s0 | awk '{print $2}')
+VM_IP=$(lxc list $USER_ID -c 4 | grep eth0 | awk '{print $2}')
 
 # Append to the Nginx configuration file
 NGINX_CONFIG="/etc/nginx/sites-available/bradensbay.com"
