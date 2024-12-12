@@ -12,7 +12,7 @@ USERNAME="${EMAIL%@*}"
 # Create an LXD VM with the specified name
 echo "Creating LXD VM: $USER_ID"
 
-lxc launch base-image2-apache $USER_ID
+lxc launch base-image2-apache-MySQL $USER_ID
 if [ $? -ne 0 ]; then
     exit 1
 fi
