@@ -1,8 +1,10 @@
 const express = require('express');
-const cors = require('cors'); 
-var exec = require('child_process').exec;
+const cors = require('cors');
+const { exec } = require('child_process');
 const { initializeApp } = require('firebase/app');
+const admin = require('firebase-admin');
 const { getDatabase, ref, set, update } = require('firebase/database');
+
 const app = express();
 
 // Enable CORS for all routes and origins
@@ -11,7 +13,7 @@ app.use(cors());
 // Middleware to parse JSON bodies
 app.use(express.json());
 
-// Your Firebase configuration
+// Firebase client configuration
 const firebaseConfig = {
     apiKey: "AIzaSyDmdf8NhoFAzXKGuBWYq5XoDrM5eNClgOg",
     authDomain: "bradensbay-1720893101514.firebaseapp.com",
@@ -23,17 +25,31 @@ const firebaseConfig = {
     measurementId: "G-DNJS8CVKWD"
 };
 
-// Initialize Firebase
-const firebaseApp = initializeApp(firebaseConfig);
+// Initialize Firebase App
+initializeApp(firebaseConfig);
 
+// Initialize Firebase Admin SDK (requires admin credentials)
+const serviceAccount = require('./bradensbay-1720893101514-firebase-adminsdk-5czfh-a2b8246636.json'); // Replace with your Firebase Admin SDK JSON key
+admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+    databaseURL: firebaseConfig.databaseURL
+});
 
-
+// Function to verify email using Firebase Admin SDK
+async function isEmailVerified(uid) {
+    try {
+        const userRecord = await admin.auth().getUser(uid);
+        return userRecord.emailVerified;
+    } catch (error) {
+        throw new Error(`Error verifying user: ${error.message}`);
+    }
+}
 
 // Function to execute the script with a timeout
 function executeScript(uid, email) {
     return new Promise((resolve, reject) => {
-        console.log(uid);
-        exec(`sudo /home/christian/app/bradensbay-start-vm-api/newUserSchedular.sh ${uid} ${email}`, { timeout: 120000 }, (error, stdout, stderr) => { // 2-minute timeout
+        console.log(`Executing script for UID: ${uid}, Email: ${email}`);
+        exec(`sudo /home/christian/app/bradensbay-start-vm-api/newUserSchedular.sh ${uid} ${email}`, { timeout: 120000 }, (error, stdout, stderr) => {
             console.log(`stdout: ${stdout}`);
             console.log(`stderr: ${stderr}`);
             if (error) {
@@ -53,15 +69,22 @@ function executeScript(uid, email) {
 // Define a POST endpoint at '/endpoint'
 app.post('/endpoint', async (req, res) => {
     const { uid, email } = req.body;
+
     console.log('Received JSON:', { uid, email });
 
     try {
-        await executeScript(uid, email);
+        // Check if the user's email is verified
+        const emailVerified = await isEmailVerified(uid);
+        if (!emailVerified) {
+            return res.status(403).json({ message: 'User email is not verified.' });
+        }
 
+        // Execute the script
+        const { password, port } = await executeScript(uid, email);
 
         // Send a success response
         res.status(200).json({
-            message: 'Data saved and script executed successfully!',
+            message: 'Script executed successfully!',
             password: password,
             port: port
         });
@@ -72,6 +95,7 @@ app.post('/endpoint', async (req, res) => {
     }
 });
 
+// Start the server
 const PORT = 3001;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
