@@ -36,14 +36,14 @@ initializeApp(firebaseConfig);
 // });
 
 // Function to verify email using Firebase Admin SDK
-async function isEmailVerified(uid) {
-    try {
-        const userRecord = await admin.auth().getUser(uid);
-        return userRecord.emailVerified;
-    } catch (error) {
-        throw new Error(`Error verifying user: ${error.message}`);
-    }
-}
+// async function isEmailVerified(uid) {
+//     try {
+//         const userRecord = await admin.auth().getUser(uid);
+//         return userRecord.emailVerified;
+//     } catch (error) {
+//         throw new Error(`Error verifying user: ${error.message}`);
+//     }
+// }
 
 // Function to execute the script with a timeout
 function executeScript(uid, email) {
