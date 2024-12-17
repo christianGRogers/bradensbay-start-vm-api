@@ -29,11 +29,11 @@ const firebaseConfig = {
 initializeApp(firebaseConfig);
 
 // Initialize Firebase Admin SDK (requires admin credentials)
-const serviceAccount = require('./bradensbay-1720893101514-firebase-adminsdk-5czfh-a2b8246636.json'); // Replace with your Firebase Admin SDK JSON key
-admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-    databaseURL: firebaseConfig.databaseURL
-});
+// const serviceAccount = require('./bradensbay-1720893101514-firebase-adminsdk-5czfh-a2b8246636.json'); // Replace with your Firebase Admin SDK JSON key
+// admin.initializeApp({
+//     credential: admin.credential.cert(serviceAccount),
+//     databaseURL: firebaseConfig.databaseURL
+// });
 
 // Function to verify email using Firebase Admin SDK
 async function isEmailVerified(uid) {
