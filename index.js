@@ -74,7 +74,7 @@ app.post('/endpoint', async (req, res) => {
 
     try {
         // Check if the user's email is verified
-        const emailVerified = await isEmailVerified(uid);
+        // const emailVerified = await isEmailVerified(uid);
         // if (!emailVerified) {
         //     return res.status(403).json({ message: 'User email is not verified.' });
         // }
