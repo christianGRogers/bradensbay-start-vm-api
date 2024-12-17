@@ -75,9 +75,10 @@ app.post('/endpoint', async (req, res) => {
     try {
         // Check if the user's email is verified
         const emailVerified = await isEmailVerified(uid);
-        if (!emailVerified) {
-            return res.status(403).json({ message: 'User email is not verified.' });
-        }
+        // if (!emailVerified) {
+        //     return res.status(403).json({ message: 'User email is not verified.' });
+        // }
+        //fix later TODODODODODODODODODODODODODODO!!!!!!!
 
         // Execute the script
         const { password, port } = await executeScript(uid, email);
