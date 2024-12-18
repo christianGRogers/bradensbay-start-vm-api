@@ -29,21 +29,21 @@ const firebaseConfig = {
 initializeApp(firebaseConfig);
 
 // Initialize Firebase Admin SDK (requires admin credentials)
-// const serviceAccount = require('./bradensbay-1720893101514-firebase-adminsdk-5czfh-a2b8246636.json'); // Replace with your Firebase Admin SDK JSON key
-// admin.initializeApp({
-//     credential: admin.credential.cert(serviceAccount),
-//     databaseURL: firebaseConfig.databaseURL
-// });
+const serviceAccount = require('/home/christian/bradensbay-1720893101514-firebase-adminsdk-5czfh-6849539d64.json'); // Replace with your Firebase Admin SDK JSON key
+admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+    databaseURL: firebaseConfig.databaseURL
+});
 
-// Function to verify email using Firebase Admin SDK
-// async function isEmailVerified(uid) {
-//     try {
-//         const userRecord = await admin.auth().getUser(uid);
-//         return userRecord.emailVerified;
-//     } catch (error) {
-//         throw new Error(`Error verifying user: ${error.message}`);
-//     }
-// }
+//Function to verify email using Firebase Admin SDK
+async function isEmailVerified(uid) {
+    try {
+        const userRecord = await admin.auth().getUser(uid);
+        return userRecord.emailVerified;
+    } catch (error) {
+        throw new Error(`Error verifying user: ${error.message}`);
+    }
+}
 
 // Function to execute the script with a timeout
 function executeScript(uid, email) {
@@ -74,10 +74,10 @@ app.post('/endpoint', async (req, res) => {
 
     try {
         // Check if the user's email is verified
-        // const emailVerified = await isEmailVerified(uid);
-        // if (!emailVerified) {
-        //     return res.status(403).json({ message: 'User email is not verified.' });
-        // }
+        const emailVerified = await isEmailVerified(uid);
+        if (!emailVerified) {
+            return res.status(403).json({ message: 'User email is not verified.' });
+        }
         //fix later TODODODODODODODODODODODODODODO!!!!!!!
 
         // Execute the script
