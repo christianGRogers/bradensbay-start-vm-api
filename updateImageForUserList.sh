@@ -13,7 +13,7 @@ fi
 while IFS=" " read -r USER_ID EMAIL; do
   if [[ -n "$USER_ID" && -n "$EMAIL" ]]; then
     echo "Scheduling process for UID: $USER_ID and EMAIL: $EMAIL"
-    sudo /home/christian/app/bradensbay-start-vm-api/newUserScheduler.sh "$USER_ID" "$EMAIL" &
+    sudo /home/christian/app/bradensbay-start-vm-api/newUserSchedular.sh "$USER_ID" "$EMAIL" &
     disown
   else
     echo "Warning: Skipping invalid line with missing UID or EMAIL."
