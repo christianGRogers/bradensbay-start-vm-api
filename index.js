@@ -60,8 +60,8 @@ function executeScript(uid, email) {
                 console.error(`Script error: ${stderr}`);
                 return reject(new Error(`Script error: ${stderr}`));
             }
-            const [password, port] = stdout.trim().split(' ');
-            resolve({ password, port });
+            
+            
         });
     });
 }
@@ -78,17 +78,15 @@ app.post('/endpoint', async (req, res) => {
         if (!emailVerified) {
             return res.status(403).json({ message: 'User email is not verified.' });
         }
-        //fix later TODODODODODODODODODODODODODODO!!!!!!!
+        
 
-        // Execute the script
-        const { password, port } = await executeScript(uid, email);
+        res.status(200).json({
+            message: 'Script started successfully!'
+        });
+        await executeScript(uid, email);
 
         // Send a success response
-        res.status(200).json({
-            message: 'Script executed successfully!',
-            password: password,
-            port: port
-        });
+
 
     } catch (error) {
         console.error(error.message);
